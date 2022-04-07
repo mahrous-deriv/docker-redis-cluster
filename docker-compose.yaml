@@ -10,6 +10,20 @@ networks:
         - subnet: 10.0.0.0/16
 
 services:
+
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      redis-network:
+        ipv4_address: 10.0.0.17
+    ports:
+      - 6666:6379
+    volumes:
+      - $PWD/docker-data/redis:/data
+      - $PWD/docker-config/single_redis.conf:/usr/local/etc/redis/redis.conf
+
   redis-proxy:
     container_name: redis-proxy
     build:
